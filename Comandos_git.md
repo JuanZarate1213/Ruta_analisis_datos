@@ -19,5 +19,5 @@ git checkout <restaura un archivo has ta el último add que se le realizó>
 
 git reset --hard <restaura toda la carpeta hasta el último commit que se le hizo>
 
-
+git diff <muestra lso cambios que se han hecho a los documentos>
 

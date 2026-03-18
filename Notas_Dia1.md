@@ -20,3 +20,6 @@ git add: para poner el archivo en el área de preparación, si se quiere subir t
 que se ha hecho de un solo golpe se hace con un "git add .", el punto significa
 "incluye todo lo que se ha hecho"
 
+git diff: permite ver los cambios de un archivo antes de hacer el add en local, en 
+comparación con la versión que ya está subida
+

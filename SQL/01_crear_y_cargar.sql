@@ -1,27 +1,24 @@
 
-DROP TABLE IF EXISTS ventas;
 
-CREATE TABLE ventas (
-    id_venta INTEGER PRIMARY KEY AUTOINCREMENT,
-    producto TEXT,
-    categoria TEXT,
-    precio_unitario REAL,
-    cantidad INTEGER,
-    fecha_venta DATE
-);
 
-INSERT INTO ventas (producto, categoria, precio_unitario, cantidad, fecha_venta) VALUES 
-('Laptop Pro', 'Hardware', 4500000, 2, '2026-03-15'),
-('Mouse Inalámbrico', 'Accesorios', 120000, 10, '2026-03-16'),
-('Monitor 4K', 'Hardware', 1800000, 4, '2026-03-17'),
-('Teclado Mecánico', 'Accesorios', 350000, 5, '2026-03-18'),
-('Soporte Laptop', 'Accesorios', 85000, 15, '2026-03-19'),
-('Laptop Pro', 'Hardware', 4500000, 1, '2026-03-20');
+SELECT * FROM ventas;
 
 SELECT 
-    categoria, 
-    SUM(precio_unitario * cantidad) AS total_ventas,
-    COUNT(id_venta) AS numero_operaciones
+    producto, 
+    SUM(cantidad) AS total_unidades,
+    SUM(cantidad * precio_unitario) AS ingresos_totales
 FROM ventas
-GROUP BY categoria
-ORDER BY total_ventas DESC;
+WHERE precio_unitario > 100000  -- Paso 1: Filtra productos caros
+GROUP BY producto               -- Paso 2: Agrupa por nombre
+HAVING total_unidades > 3       -- Paso 3: Filtra los grupos que vendieron poco
+ORDER BY ingresos_totales DESC; -- Paso 4: Ordena por plata
+
+SELECT 
+    producto,
+    SUM(cantidad) AS unidades_vendidas,
+    ROUND(AVG(precio_unitario), 2) AS precio_promedio,
+    SUM(precio_unitario * cantidad) AS ingresos_totales
+FROM ventas
+GROUP BY producto
+ORDER BY ingresos_totales DESC;
+

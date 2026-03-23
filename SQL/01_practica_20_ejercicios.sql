@@ -17,3 +17,5 @@ LIMIT 5;
 
 SELECT DISTINCT categoria FROM ventas_tech
 ;
+
+SELECT COUNT(*) AS total_ventas FROM ventas_tech;

@@ -29,3 +29,10 @@ LIMIT 10;
 
 SELECT DISTINCT nivel_ingles FROM estudiantes
 ORDER BY nivel_ingles ASC;
+
+SELECT COUNT(*) AS total_estudiantes FROM estudiantes;
+
+SELECT AVG(precio) AS precio_promedio FROM cursos;
+
+SELECT precio FROM cursos
+GROUP BY categoria;

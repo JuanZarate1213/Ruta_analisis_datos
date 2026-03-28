@@ -52,7 +52,24 @@ SELECT COUNT(*) AS total_inscripciones, id_curso FROM inscripciones
 GROUP BY id_curso;
 
 SELECT categoria, SUM(duracion_horas) AS horas_totales FROM cursos
-WHERE categoria = 'Idiomas';
+WHERE categoria = 'Idiomas'
+GROUP BY categoria;
 
 SELECT id_estudiante, ROUND(AVG(calificacion), 2) AS calificacion_promedio FROM inscripciones
 GROUP BY id_estudiante;
+
+
+SELECT pais, COUNT(pais) AS total_paises FROM estudiantes
+GROUP BY pais
+HAVING COUNT(pais) > 5
+ORDER BY total_paises DESC;
+
+SELECT categoria, AVG(precio) AS precio_promedio FROM cursos
+GROUP BY categoria
+HAVING AVG(precio) > 130
+ORDER BY precio_promedio DESC;
+
+SELECT estudiantes, COUNT(inscripciones) AS total_inscripciones FROM estudiantes
+GROUP BY estudiantes
+HAVING COUNT(inscripciones) > 2
+ORDER BY total_inscripciones DESC;

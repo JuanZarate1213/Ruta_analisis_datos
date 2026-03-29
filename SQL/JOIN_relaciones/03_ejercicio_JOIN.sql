@@ -1,3 +1,14 @@
+SELECT estudiantes.id_estudiante, estudiantes.nombre, cursos.nombre_curso, inscripciones.fecha_inscripcion
+FROM estudiantes
+JOIN inscripciones ON estudiantes.id_estudiante = inscripciones.id_estudiante
+JOIN cursos ON inscripciones.id_curso = cursos.id_curso
+;
+
+SELECT * FROM estudiantes;
+
+SELECT * FROM inscripciones
+ORDER BY fecha_inscripcion ASC;
+
 SELECT * FROM cursos;
 
 SELECT * FROM estudiantes 
@@ -59,6 +70,7 @@ SELECT id_estudiante, ROUND(AVG(calificacion), 2) AS calificacion_promedio FROM 
 GROUP BY id_estudiante;
 
 
+
 SELECT pais, COUNT(pais) AS total_paises FROM estudiantes
 GROUP BY pais
 HAVING COUNT(pais) > 5
@@ -69,7 +81,31 @@ GROUP BY categoria
 HAVING AVG(precio) > 130
 ORDER BY precio_promedio DESC;
 
-SELECT estudiantes, COUNT(inscripciones) AS total_inscripciones FROM estudiantes
-GROUP BY estudiantes
-HAVING COUNT(inscripciones) > 2
+SELECT id_estudiante, COUNT(*) AS total_inscripciones FROM inscripciones
+GROUP BY id_estudiante
+HAVING COUNT(*) > 2
 ORDER BY total_inscripciones DESC;
+
+SELECT id_curso, ROUND(AVG(calificacion), 2) AS calificacion_promedio FROM inscripciones
+GROUP BY id_curso
+HAVING ROUND(AVG(calificacion), 2) < 3
+ORDER BY calificacion_promedio DESC;
+
+SELECT categoria, MIN(precio) AS precio_minimo FROM cursos
+GROUP BY categoria
+HAVING MIN(precio) > 40
+ORDER BY precio_minimo ASC;
+
+SELECT nombre, AVG((SELECT calificacion FROM inscripciones WHERE id_estudiante = estudiantes.id_estudiante)) AS calificacion FROM estudiantes
+WHERE nivel_ingles = 'B2'
+GROUP BY nombre
+HAVING AVG((SELECT calificacion FROM inscripciones WHERE id_estudiante = estudiantes.id_estudiante)) > 4
+ORDER BY calificacion DESC;
+
+SELECT id_curso, COUNT(*) AS total_inscripciones FROM inscripciones
+WHERE id_curso IN (1,3,6)
+GROUP BY id_curso
+HAVING COUNT(*) > 10
+ORDER BY total_inscripciones DESC;
+
+

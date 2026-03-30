@@ -1,8 +1,3 @@
-SELECT estudiantes.id_estudiante, estudiantes.nombre, cursos.nombre_curso, inscripciones.fecha_inscripcion
-FROM estudiantes
-JOIN inscripciones ON estudiantes.id_estudiante = inscripciones.id_estudiante
-JOIN cursos ON inscripciones.id_curso = cursos.id_curso
-;
 
 SELECT * FROM estudiantes;
 
@@ -109,3 +104,55 @@ HAVING COUNT(*) > 10
 ORDER BY total_inscripciones DESC;
 
 
+
+SELECT estudiantes.nombre, cursos.nombre_curso
+FROM inscripciones
+JOIN estudiantes ON inscripciones.id_estudiante = estudiantes.id_estudiante
+JOIN cursos ON inscripciones.id_curso = cursos.id_curso
+ORDER BY estudiantes.nombre ASC;
+
+SELECT *, cursos.nombre_curso, cursos.categoria
+FROM inscripciones
+JOIN cursos ON inscripciones.id_curso = cursos.id_curso;
+
+SELECT nombre, cursos.nombre_curso FROM estudiantes
+LEFT JOIN inscripciones ON estudiantes.id_estudiante = inscripciones.id_estudiante
+LEFT JOIN cursos ON inscripciones.id_curso = cursos.id_curso;
+
+SELECT nombre, cursos.nombre_curso FROM estudiantes
+LEFT JOIN inscripciones ON estudiantes.id_estudiante = inscripciones.id_estudiante
+LEFT JOIN cursos ON inscripciones.id_curso = cursos.id_curso
+WHERE nombre_curso IS NULL;
+
+SELECT nombre_curso, precio*COUNT(inscripciones.id_curso) AS total_inscripciones FROM cursos
+JOIN inscripciones ON cursos.id_curso = inscripciones.id_curso
+GROUP BY cursos.id_curso
+ORDER BY total_inscripciones DESC;
+
+SELECT nombre_curso,ROUND(AVG(inscripciones.calificacion), 2) AS calificacion_promedio  FROM cursos
+JOIN inscripciones ON cursos.id_curso = inscripciones.id_curso
+GROUP BY cursos.id_curso
+ORDER BY calificacion_promedio DESC;
+
+SELECT nombre, cursos.nombre_curso FROM estudiantes
+JOIN inscripciones ON estudiantes.id_estudiante = inscripciones.id_estudiante
+JOIN cursos ON inscripciones.id_curso = cursos.id_curso
+WHERE pais = 'Colombia';
+
+SELECT nombre, cursos.nombre_curso, inscripciones.calificacion FROM estudiantes
+JOIN inscripciones ON estudiantes.id_estudiante = inscripciones.id_estudiante
+JOIN cursos ON inscripciones.id_curso = cursos.id_curso;
+
+SELECT categoria, COUNT(inscripciones.id_curso) AS maxima_inscripciones FROM cursos
+JOIN inscripciones ON cursos.id_curso = inscripciones.id_curso
+GROUP BY categoria
+ORDER BY maxima_inscripciones DESC
+LIMIT 1;
+
+SELECT estudiantes.id_estudiante, estudiantes.nombre, SUM(cursos.precio) AS total_ingresos 
+FROM inscripciones
+JOIN estudiantes ON inscripciones.id_estudiante = estudiantes.id_estudiante
+JOIN cursos ON inscripciones.id_curso = cursos.id_curso
+GROUP BY estudiantes.id_estudiante
+ORDER BY total_ingresos DESC
+LIMIT 1;

@@ -156,3 +156,27 @@ JOIN cursos ON inscripciones.id_curso = cursos.id_curso
 GROUP BY estudiantes.id_estudiante
 ORDER BY total_ingresos DESC
 LIMIT 1;
+
+SELECT 
+    nombre,
+    pais,
+    inscripciones.calificacion,
+    RANK() OVER (
+        PARTITION BY pais 
+        ORDER BY inscripciones.calificacion DESC) 
+        AS ranking_pais
+FROM estudiantes
+JOIN inscripciones ON estudiantes.id_estudiante = inscripciones.id_estudiante;
+
+SELECT 
+    nombre,
+    pais,
+    inscripciones.calificacion,
+    RANK() OVER (
+        PARTITION BY pais 
+        ORDER BY AVG(inscripciones.calificacion) DESC)
+        AS ranking_pais
+FROM estudiantes
+JOIN inscripciones ON estudiantes.id_estudiante = inscripciones.id_estudiante
+GROUP BY nombre;
+

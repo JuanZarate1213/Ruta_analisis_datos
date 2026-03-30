@@ -21,10 +21,11 @@ Progreso de SQL
 - [x] **Bloque 1: Filtros y Alias (10/10)** - Completado.
 - [x] **Bloque 2: Agregación y Cajas (10/10)** - Dominio de SUM, AVG, COUNT.
 - [x] **Bloque 3: Control de Calidad (10/10)** - Completado usando lógica avanzada de Subconsultas y HAVING.
-- [ ] **Bloque 4: Uniones Maestras (0/10)** - PRÓXIMO OBJETIVO: Optimización de consultas mediante JOINs.
+- [x] **Bloque 4: Uniones Maestras (10/10)** - Optimización de consultas mediante JOINs.
 
 
 
 ## ⚠️ Lección Aprendida
 
-Dominé la resolución de problemas complejos mediante subconsultas, pero identifiqué que para escalabilidad y rendimiento profesional, la transición hacia `INNER` y `LEFT JOIN` es innegociable.
+Las uniones con otras bases se pueden hacer a través de subconsultas pero estas son ineficientes, es más óptimo trabajar
+con JOIN y LEFT JOIN

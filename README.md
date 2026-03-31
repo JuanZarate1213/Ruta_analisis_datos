@@ -23,9 +23,26 @@ Progreso de SQL
 - [x] **Bloque 3: Control de Calidad (10/10)** - Completado usando lógica avanzada de Subconsultas y HAVING.
 - [x] **Bloque 4: Uniones Maestras (10/10)** - Optimización de consultas mediante JOINs.
 
+# 🚀 Ruta hacia Data Science - Juan H.
 
+## 🟢 MES 1: SQL & Estructura de Datos (100%)
+- [x] Consultas Multi-tabla (Joins complejos).
+- [x] Lógica de Negocio en SQL (KPIs de Delivery).
+- [x] Diseño de Base de Datos Relacional.
+
+## 🟡 MES 2: Python & Manipulación con Pandas (15%) 
+- [x] **Entorno de Trabajo:** VS Code + Jupyter + Entornos Virtuales.
+- [x] **Puente de Datos:** Conexión SQL -> Python (sqlite3/pandas).
+- [x] **POO Básica:** Comprensión de Clases, Métodos, __init__ y Self.
+- [x] **Estructuras:** Carga de DataFrames y exploración inicial (`.head()`, `.info()`).
+- [ ] **Próximo Paso:** Bloque 1 de 40 ejercicios (Exploración y Filtros).
+
+## 🔴 MES 3: Análisis Avanzado & Visualización (0%)
+- [ ] Limpieza de datos (Missing values).
+- [ ] Visualización estadística (Seaborn/Matplotlib).
+- [ ] Storytelling con datos.
 
 ## ⚠️ Lección Aprendida
 
-Las uniones con otras bases se pueden hacer a través de subconsultas pero estas son ineficientes, es más óptimo trabajar
-con JOIN y LEFT JOIN
+La importancia de usar un __init__, un self para construir clases y funciones, qué pasa si no se incluyen en la 
+instrucción 

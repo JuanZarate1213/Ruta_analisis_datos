@@ -12,7 +12,10 @@ query = """SELECT
             HAVING total_gastado > 200000
             ORDER BY total_gastado DESC;"""
 
-df = pd.read_sql_query(query, conn)
+df_pedidos = pd.read_sql_query(query, conn)
 
-print(df.head())
+
+#print(df_pedidos.head())
+#print(df_pedidos.tail(10))
+print(df_pedidos.columns)
 conn.close()

@@ -17,5 +17,5 @@ df_pedidos = pd.read_sql_query(query, conn)
 
 #print(df_pedidos.head())
 #print(df_pedidos.tail(10))
-print(df_pedidos.columns)
+print(df_pedidos.columns.tolist())
 conn.close()

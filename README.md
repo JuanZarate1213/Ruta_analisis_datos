@@ -46,3 +46,16 @@ Progreso de SQL
 
 La importancia de usar un __init__, un self para construir clases y funciones, qué pasa si no se incluyen en la 
 instrucción 
+
+### 🗓️ Sesión: 2026-04-03 | Dominio de Estructuras y Agregaciones
+**Objetivo:** Transición de lógica SQL a manipulación de datos con Pandas.
+
+#### ✅ Logros Técnicos:
+- **Diferenciación de Estructuras:** Claridad total entre Listas `[]` (filas/índices) y Diccionarios `{}` (columnas/claves).
+- **Anatomía de Funciones:** Identificación de Argumentos, Retornos y diferencia entre Función vs. Método (`objeto.metodo()`).
+- **Bloque 1 & 2 Completados:** Carga de DB, filtros lógicos, manejo de `inplace=True` (implícito) y limpieza de fechas (`pd.to_datetime`).
+- **Integración SQL-Pandas:** Validación exitosa de resultados entre consultas SQL puras y métodos de Pandas (`merge` + `groupby`).
+
+#### ⚠️ Notas de Aprendizaje (Lecciones aprendidas):
+- **Cuidado con los Índices:** No agrupar un DataFrame usando columnas de otro sin un `merge` previo (evita desajuste de datos).
+- **Lectura de Errores:** El error `1-dimensional` fue la clave para entender la ambigüedad de nombres tras un JOIN.

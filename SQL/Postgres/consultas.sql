@@ -1,56 +1,18 @@
+SELECT 
+    c.nombre,
+    p.fecha_pedido,
+    p.valor,
+    LAG(p.valor) OVER (PARTITION BY p.cliente_id ORDER BY p.fecha_pedido) AS pedido_anterior,
+    LEAD(p.valor) OVER (PARTITION BY p.cliente_id ORDER BY p.fecha_pedido) AS pedido_siguiente
+FROM clientes c
+JOIN pedidos p ON c.cliente_id = p.cliente_id;
 
 SELECT * FROM clientes;
 SELECT * FROM pedidos;
 
-SELECT * FROM clientes
-WHERE ciudad = 'Cali'
-ORDER BY fecha_registro DESC;
-
-SELECT nombre, fecha_registro FROM clientes
-WHERE EXTRACT(YEAR FROM fecha_registro) = 2023;
-
-SELECT ciudad,COUNT(*) AS Nro_clientes FROM clientes
-GROUP BY ciudad;
-
-SELECT ciudad, COUNT(*) AS nro_clientes FROM clientes
-GROUP BY ciudad
-HAVING COUNT(*) > 1;
 
 SELECT nombre FROM clientes
 WHERE fecha_registro = (SELECT MAX(fecha_registro) FROM clientes);
-
-SELECT * FROM clientes
-INNER JOIN pedidos ON clientes.cliente_id = pedidos.cliente_id;
-
-SELECT nombre, producto FROM clientes
-LEFT JOIN pedidos ON clientes.cliente_id = pedidos.cliente_id;
-
-SELECT * FROM clientes
-FULL JOIN pedidos ON clientes.cliente_id = pedidos.cliente_id;
-
-SELECT 
-    c.nombre, 
-    SUM(p.valor) AS total_gastado 
-FROM clientes AS c
-INNER JOIN pedidos AS p ON c.cliente_id = p.cliente_id
-GROUP BY nombre
-ORDER BY total_gastado DESC;
-
-SELECT 
-    c.nombre, 
-    SUM(p.valor) AS total_gastado 
-FROM clientes AS c
-INNER JOIN pedidos AS p ON c.cliente_id = p.cliente_id
-GROUP BY nombre
-ORDER BY total_gastado DESC;
-
-SELECT 
-    c.nombre, 
-    COALESCE(SUM(p.valor),0) AS total_gastado 
-FROM clientes AS c
-LEFT JOIN pedidos AS p ON c.cliente_id = p.cliente_id
-GROUP BY nombre
-ORDER BY total_gastado DESC;  
 
 SELECT nombre FROM clientes
 WHERE cliente_id IN
@@ -79,28 +41,81 @@ WITH suma_clientes AS (
 SELECT nombre FROM clientes
 WHERE cliente_id IN (SELECT cliente_id FROM resultado);
 
-SELECT nombre,
-    CASE 
-        WHEN ciudad = 'Cali' THEN 'Local'
-        WHEN ciudad = 'Bogotá' OR ciudad = 'Medellín' THEN 'Nacional'
-        ELSE 'Otro'
-    END AS envío
-FROM clientes;
-
-
 
 WITH gasto_cliente AS (
-    SELECT cliente_id, SUM(valor) AS suma_cliente FROM pedidos
-    GROUP BY cliente_id)
-
-SELECT suma_cliente, nombre,
+    SELECT cliente_id, SUM(valor) AS suma_cliente 
+    FROM pedidos
+    GROUP BY cliente_id
+)
+SELECT c.nombre,
     CASE 
-        WHEN ciudad = 'Cali' THEN 'Local'
-        WHEN ciudad = 'Bogotá' OR ciudad = 'Medellín' THEN 'Nacional'
+        WHEN c.ciudad = 'Cali' THEN 'Local'
+        WHEN c.ciudad IN ('Bogotá','Medellín') THEN 'Nacional'
         ELSE 'Otro'
-    END AS envío
-FROM clientes
-JOIN 
-ORDER BY suma_cliente;
+    END AS envío,
+    CURRENT_DATE - c.fecha_registro AS dias_registrado,
+    COALESCE(gc.suma_cliente,0) AS total_gastado
+FROM clientes c
+LEFT JOIN gasto_cliente gc ON c.cliente_id = gc.cliente_id
+ORDER BY total_gastado DESC;
+
+SELECT 
+    UPPER(nombre) AS mayusculas,
+    LOWER(nombre) AS minusculas,
+    LENGTH(nombre) AS caracteres,
+    SUBSTRING(nombre, 1, 3) AS primeras_tres
+FROM clientes;
+
+SELECT 
+    SUBSTRING(nombre, 1, POSITION(' ' IN nombre)-1) AS primer_nombre,
+    SUBSTRING(nombre, POSITION(' ' IN nombre)+1, LENGTH(nombre)) AS apellido
+    FROM clientes
+;
+
+SELECT 
+    NOW(),
+    CURRENT_DATE,
+    EXTRACT(YEAR FROM fecha_registro),
+    EXTRACT(MONTH FROM fecha_registro),
+    AGE(CURRENT_DATE, fecha_registro) AS tiempo_registrado
+FROM clientes;
+
+SELECT 
+    c.nombre,
+    c.ciudad,
+    p.valor,
+    SUM(p.valor) OVER (PARTITION BY c.ciudad) AS total_por_ciudad
+FROM clientes c
+JOIN pedidos p ON c.cliente_id = p.cliente_id;
+
+SELECT 
+    c.nombre,
+    c.ciudad,
+    p.valor,
+    ROW_NUMBER() OVER (PARTITION BY c.ciudad ORDER BY p.valor DESC) AS ranking
+FROM clientes c
+JOIN pedidos p ON c.cliente_id = p.cliente_id;
 
 
+WITH mas_pedido AS (
+    SELECT 
+        p.pedido_id,
+        p.cliente_id,
+        p.valor,
+        p.producto,
+        c.ciudad,
+        ROW_NUMBER() OVER (PARTITION BY c.ciudad ORDER BY p.valor DESC) AS ranking
+    FROM pedidos p
+    JOIN clientes c ON p.cliente_id = c.cliente_id
+)
+SELECT ciudad, pedido_id, valor, producto
+FROM mas_pedido
+WHERE ranking = 1;
+
+SELECT 
+    c.nombre,
+    p.valor,
+    ROW_NUMBER() OVER (ORDER BY p.valor DESC) AS row_number,
+    RANK() OVER (ORDER BY p.valor DESC) AS rank
+FROM clientes c
+JOIN pedidos p ON c.cliente_id = p.cliente_id;
